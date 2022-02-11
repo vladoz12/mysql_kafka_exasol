@@ -1,0 +1,57 @@
+{
+    "name": "mysql-source",
+    "config":
+    {
+        "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+        "tasks.max": "1",
+
+        "comment_database.hostname": "MySQL server address.",
+        "database.hostname": "mysqldb_host",
+
+        "comment_database.port": "MySQL server port number.",
+        "database.port": "3306",
+
+        "comment_time.precision.mode": "connect represents time and timestamp values using Kafka Connect’s built-in representations for Time, Date, and Timestamp (the default - adaptive_time_microseconds)",
+        "time.precision.mode": "connect",
+
+        "comment_database.user": "MySQL user with the appropriate privileges.",
+        "database.user": "root",
+
+        "comment_database.password": "MySQL user’s password.",
+        "database.password": "rootpass",
+
+        "comment_database.server.id": "Unique ID of the connector.",
+        "database.server.id": "1234",
+
+        "comment_database.server.name": "Logical name of the MySQL server or cluster.",
+        "database.server.name": "test_server",
+
+        "comment_snapshot.mode": "schema_only_recovery or initial",
+        "snapshot.mode":"initial",
+
+        "comment_database.include.list": "List of databases hosted by the specified server.",
+        "database.include.list": "connect_test",
+
+        "comment_database.history.kafka.bootstrap.servers": "List of Kafka brokers that the connector uses to write and recover DDL statements to the database history topic.",
+        "database.history.kafka.bootstrap.servers": "kafka01.internal:9092,kafka02.internal:9093,kafka03.internal:9094",
+
+        "comment_database.history.kafka.topic": "Name of the database history topic. This topic is for internal use only and should not be used by consumers.",
+        "database.history.kafka.topic": "history_topic",
+
+        "comment_include.schema.changes": "Flag that specifies if the connector should generate events for DDL changes and emit them to the fulfillment schema change topic for use by consumers.",
+        "include.schema.changes": "true",
+
+        "transforms": "snapshotasinsert,unwrap,route",
+
+        "comment_transforms.snapshotasinsert.type": "Connector can emit snapshot 'r' (READ) events as 'c' events (CREATE, as done incorrectly in earlier versions), this can be achieved using a Simple Message Transforms",
+        "transforms.snapshotasinsert.type": "io.debezium.connector.mysql.transforms.ReadToInsertEvent",
+
+        "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+        "comment_transforms.unwrap.drop.tombstones": "To keep tombstone records in the stream, specify drop.tombstones=false",
+        "transforms.unwrap.drop.tombstones": "false",
+
+        "transforms.route.type": "io.debezium.transforms.ByLogicalTableRouter",
+        "transforms.route.topic.regex": "test_server\\.(.*)\\.(.*)",
+        "transforms.route.topic.replacement": "$2"
+    }
+}

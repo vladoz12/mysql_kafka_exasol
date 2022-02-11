@@ -1,0 +1,24 @@
+
+{
+  "name": "exasol-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+
+
+    "connection.url": "jdbc:exa:poc-exasol-db:8888;schema=CONNECT_TEST",
+    "connection.user": "sys",
+    "connection.password": "exasol",
+    "insert.mode": "upsert",
+    "auto.create": "true",
+    "auto.evolve": "true",
+    "topics": "OLD_TABLE",
+    "table.name.format": "${topic}",
+    "pk.mode": "record_key",
+    "pk.fields": "id",
+    "db.timezone": "Europe/Moscow",
+    "offed_____quote.sql.identifiers": "never",
+    "delete.enabled": "true",
+    "batch.size": "1"
+  }
+}

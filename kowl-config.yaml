@@ -1,0 +1,9 @@
+kafka:
+  brokers:
+    - kafka01.internal:9092
+    - kafka02.internal:9093
+    - kafka03.internal:9094
+  schemaRegistry:
+    enabled: true
+    urls: ["http://schema_registry:8081"]
+#    172.21.0.9
